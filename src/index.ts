@@ -1,33 +1,8 @@
-import { createServer, IncomingMessage, ServerResponse } from 'http';
+import { createServer } from 'http';
 import 'dotenv/config';
-import * as userController from './controllers/user.controller';
-import { sendMessage } from './utils/messages';
-import { MSG_API_ROUTE_404 } from './constants';
-import { StatusCodes } from './types';
+import { listener } from './listener';
 
 const PORT = process.env.PORT || 3000;
-const PATTERN = /\/api\/users\/\w+/;
-
-const listener = async (req: IncomingMessage, res: ServerResponse) => {
-  try {
-    if (req.url === '/api/users' && req.method === 'GET') {
-      userController.getUsers(res);
-    } else if (req.url?.match(PATTERN) && req.method === 'GET') {
-      userController.getUser(req, res);
-    } else if (req.url === '/api/users' && req.method === 'POST') {
-      userController.createUser(req, res);
-    } else if (req.url?.match(PATTERN) && req.method === 'PUT') {
-      userController.updateUser(req, res);
-    } else if (req.url?.match(PATTERN) && req.method === 'DELETE') {
-      userController.deleteUser(req, res);
-    } else
-      sendMessage(res, StatusCodes.NOT_FOUND, { message: MSG_API_ROUTE_404 });
-  } catch {
-    sendMessage(res, StatusCodes.INTERNAL_SERVER_ERROR, {
-      message: 'Internal server error!',
-    });
-  }
-};
 
 export const server = createServer(listener);
 

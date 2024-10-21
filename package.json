@@ -7,7 +7,7 @@
     "start": "nodemon ./src/index.ts",
     "start:dev": "nodemon ./src/index.ts",
     "start:prod": "tsc && node ./dist/index.js",
-    "start:multi": "nodemon ./src/multi.ts",
+    "start:multi": "cross-env MULTI=true nodemon ./src/multi/index.ts",
     "lint": "eslint \"src/**/*.ts\" --fix",
     "format": "prettier --write \"src/**/*.ts\"",
     "test": "jest"
