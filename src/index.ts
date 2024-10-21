@@ -17,7 +17,7 @@ const listener = async (req: IncomingMessage, res: ServerResponse) => {
     } else if (req.url === '/api/users' && req.method === 'POST') {
       userController.createUser(req, res);
     } else if (req.url?.match(PATTERN) && req.method === 'PUT') {
-      // updateUser(req, res);
+      userController.updateUser(req, res);
     } else if (req.url?.match(PATTERN) && req.method === 'DELETE') {
       // deleteUser(req, res);
     } else

@@ -16,7 +16,7 @@ export class UserService {
     return user;
   }
 
-  create(userData: UserData): User | undefined {
+  create(userData: Omit<User, 'id'>): User | undefined {
     const user = { id: uuidv4(), ...userData } as User;
     this._users = [...this._users, user];
     return this._users.at(-1);

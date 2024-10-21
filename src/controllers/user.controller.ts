@@ -40,7 +40,6 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   const body = await parseBody(req);
 
   const { username, age, hobbies } = body as User;
-  console.log(body);
 
   const isValidBody = validateBody(username, age, hobbies);
 
@@ -52,4 +51,35 @@ export const createUser = async (req: IncomingMessage, res: ServerResponse) => {
   const newUser = userService.create({ username, age, hobbies });
 
   return sendMessage(res, StatusCodes.CREATED, newUser);
+};
+
+export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
+  const id = getIdFromUrl(req.url);
+
+  if (!id || !uuidValidate(id))
+    return sendMessage(res, StatusCodes.BAD_REQUEST, {
+      message: MSG_GET_USER_400,
+    });
+
+  const user = userService.findUser(id);
+
+  if (!user)
+    return sendMessage(res, StatusCodes.NOT_FOUND, {
+      message: MSG_GET_USER_404,
+    });
+
+  const body = await parseBody(req);
+
+  const { username, age, hobbies } = body as User;
+
+  const isValidBody = validateBody(username, age, hobbies);
+
+  if (!isValidBody)
+    return sendMessage(res, StatusCodes.BAD_REQUEST, {
+      message: MSG_POST_USER_400,
+    });
+
+  const updatedUser = userService.update(id, { username, age, hobbies });
+
+  return sendMessage(res, StatusCodes.OK, updatedUser);
 };
