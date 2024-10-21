@@ -19,7 +19,7 @@ const listener = async (req: IncomingMessage, res: ServerResponse) => {
     } else if (req.url?.match(PATTERN) && req.method === 'PUT') {
       userController.updateUser(req, res);
     } else if (req.url?.match(PATTERN) && req.method === 'DELETE') {
-      // deleteUser(req, res);
+      userController.deleteUser(req, res);
     } else
       sendMessage(res, StatusCodes.NOT_FOUND, { message: MSG_API_ROUTE_404 });
   } catch {

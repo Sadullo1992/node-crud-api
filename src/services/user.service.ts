@@ -35,12 +35,8 @@ export class UserService {
     return updatedUser;
   }
 
-  delete(id: string): boolean {
-    const user = this.findUser(id);
-    if (!user) return false;
-
+  delete(id: string) {
     const filteredUsers = this._users.filter((item) => item.id !== id);
     this._users = [...filteredUsers];
-    return true;
   }
 }

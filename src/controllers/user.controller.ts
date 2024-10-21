@@ -83,3 +83,23 @@ export const updateUser = async (req: IncomingMessage, res: ServerResponse) => {
 
   return sendMessage(res, StatusCodes.OK, updatedUser);
 };
+
+export const deleteUser = (req: IncomingMessage, res: ServerResponse) => {
+  const id = getIdFromUrl(req.url);
+
+  if (!id || !uuidValidate(id))
+    return sendMessage(res, StatusCodes.BAD_REQUEST, {
+      message: MSG_GET_USER_400,
+    });
+
+  const user = userService.findUser(id);
+
+  if (!user)
+    return sendMessage(res, StatusCodes.NOT_FOUND, {
+      message: MSG_GET_USER_404,
+    });
+
+  userService.delete(id);
+
+  return sendMessage(res, StatusCodes.NO_CONTENT);
+};
