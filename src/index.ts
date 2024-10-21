@@ -29,12 +29,10 @@ const listener = async (req: IncomingMessage, res: ServerResponse) => {
   }
 };
 
-const init = () => {
-  const server = createServer(listener);
+export const server = createServer(listener);
 
+if (process.env.NODE_ENV !== 'test') {
   server.listen(PORT, () => {
     console.log(`Server is running port: ${PORT}`);
   });
-};
-
-init();
+}
