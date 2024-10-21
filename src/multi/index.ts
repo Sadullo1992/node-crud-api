@@ -3,6 +3,7 @@ import { availableParallelism } from 'os';
 
 import 'dotenv/config';
 import { startServer } from './server';
+import { handleMessage, users } from '../db/db';
 
 export const CLUSTER_PORT = 4000;
 
@@ -14,7 +15,8 @@ const useMulti = () => {
 
       for (let i = 1; i < numCPUs; i++) {
         const workerPort = CLUSTER_PORT + i;
-        cluster.fork({ PORT: workerPort });
+        const worker = cluster.fork({ PORT: workerPort });
+        worker.send({ workerData: users });
       }
 
       cluster.on('exit', (worker) => {
@@ -25,6 +27,8 @@ const useMulti = () => {
       startServer(CLUSTER_PORT);
     } else {
       console.log(`Worker process started: ${process.pid}`);
+      process.on('message', handleMessage);
+
       startServer(Number(process.env.PORT));
     }
   }

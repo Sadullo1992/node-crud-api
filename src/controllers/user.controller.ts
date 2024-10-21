@@ -5,12 +5,12 @@ import {
   MSG_GET_USER_404,
   MSG_POST_USER_400,
 } from '../constants';
-import { UserService } from '../services/user.service';
+import { userService } from '../services/user.service';
 import { StatusCodes, User } from '../types';
 import { sendMessage } from '../utils/messages';
 import { getIdFromUrl, parseBody, validateBody } from '../utils/utils';
 
-const userService = new UserService();
+
 
 export const getUsers = (res: ServerResponse) => {
   const users = userService.getAllUsers();
