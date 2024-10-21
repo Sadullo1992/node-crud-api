@@ -1,5 +1,6 @@
 import { createServer, IncomingMessage, ServerResponse } from 'http';
 import 'dotenv/config';
+import * as userController from './controllers/user.controller';
 import { sendMessage } from './utils/messages';
 import { MSG_API_ROUTE_404 } from './constants';
 import { StatusCodes } from './types';
@@ -10,11 +11,11 @@ const PATTERN = /\/api\/users\/\w+/;
 const listener = async (req: IncomingMessage, res: ServerResponse) => {
   try {
     if (req.url === '/api/users' && req.method === 'GET') {
-      // getUsers(res);
+      userController.getUsers(res);
     } else if (req.url?.match(PATTERN) && req.method === 'GET') {
-      // getUser(req, res);
+      userController.getUser(req, res);
     } else if (req.url === '/api/users' && req.method === 'POST') {
-      // createUser(req, res);
+      userController.createUser(req, res);
     } else if (req.url?.match(PATTERN) && req.method === 'PUT') {
       // updateUser(req, res);
     } else if (req.url?.match(PATTERN) && req.method === 'DELETE') {
